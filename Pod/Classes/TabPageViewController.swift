@@ -30,6 +30,9 @@ open class TabPageViewController: UIPageViewController {
     }
     fileprivate var shouldScrollCurrentBar: Bool = true
     lazy fileprivate var tabView: TabView = self.configuredTabView()
+    
+    var previousOffset: CGFloat = 0
+    var isDragging = false
 
     open static func create() -> TabPageViewController {
         let sb = UIStoryboard(name: "TabPageViewController", bundle: Bundle(for: TabPageViewController.self))
@@ -249,6 +252,55 @@ extension TabPageViewController: UIPageViewControllerDelegate {
 extension TabPageViewController: UIScrollViewDelegate {
 
     public func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        // Check if offset was reset while moving right (which means next page)
+        if self.previousOffset - scrollView.contentOffset.x >= defaultContentOffsetX && self.isDragging {
+            // Calculate new index
+            var newIndex = (currentIndex ?? 0) + 1
+            
+            if newIndex == tabItemsCount {
+                newIndex = 0
+            }
+            
+            // Update index
+            tabView.updateCurrentIndex(newIndex, shouldScroll: false)
+            
+            // Display controller to keep data source index in sync (http://stackoverflow.com/a/15000910/4489859)
+            displayControllerWithIndex(newIndex, direction: .forward, animated: false)
+            
+            // Save this offset
+            self.previousOffset = scrollView.contentOffset.x
+            
+            // Stop here
+            return
+        }
+        
+        // Check if offset was reset while moving left (which means previous page)
+        if self.previousOffset - scrollView.contentOffset.x <= -defaultContentOffsetX && self.isDragging {
+            // Calculate new index
+            var newIndex = (currentIndex ?? 0) - 1
+            
+            if newIndex < 0 {
+                newIndex = tabItemsCount - 1
+            }
+            
+            // Update index
+            tabView.updateCurrentIndex(newIndex, shouldScroll: false)
+            
+            // Display controller to keep data source index in sync (http://stackoverflow.com/a/15000910/4489859)
+            displayControllerWithIndex(newIndex, direction: .reverse, animated: false)
+            
+            // Save this offset
+            self.previousOffset = scrollView.contentOffset.x
+            
+            // Stop here
+            return
+        }
+        
+        // Save this offset
+        self.previousOffset = scrollView.contentOffset.x
+        
+        // Continue with original code...
+        
         if scrollView.contentOffset.x == defaultContentOffsetX || !shouldScrollCurrentBar {
             return
         }
@@ -269,6 +321,19 @@ extension TabPageViewController: UIScrollViewDelegate {
 
         let scrollOffsetX = scrollView.contentOffset.x - view.frame.width
         tabView.scrollCurrentBarView(index, contentOffsetX: scrollOffsetX)
+    }
+    
+    public func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
+        // Set initial offset
+        self.previousOffset = scrollView.contentOffset.x
+        
+        // Start dragging
+        self.isDragging = true
+    }
+    
+    public func scrollViewWillEndDragging(_ scrollView: UIScrollView, withVelocity velocity: CGPoint, targetContentOffset: UnsafeMutablePointer<CGPoint>) {
+        // Stop dragging
+        self.isDragging = false
     }
 
     public func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
