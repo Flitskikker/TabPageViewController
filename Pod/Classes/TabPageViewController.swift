@@ -237,6 +237,9 @@ extension TabPageViewController: UIPageViewControllerDelegate {
     }
 
     public func pageViewController(_ pageViewController: UIPageViewController, didFinishAnimating finished: Bool, previousViewControllers: [UIViewController], transitionCompleted completed: Bool) {
+        // Stop dragging
+        self.isDragging = false
+        
         if let currentIndex = currentIndex , currentIndex < tabItemsCount {
             tabView.updateCurrentIndex(currentIndex, shouldScroll: false)
             beforeIndex = currentIndex
@@ -329,11 +332,6 @@ extension TabPageViewController: UIScrollViewDelegate {
         
         // Start dragging
         self.isDragging = true
-    }
-    
-    public func scrollViewWillEndDragging(_ scrollView: UIScrollView, withVelocity velocity: CGPoint, targetContentOffset: UnsafeMutablePointer<CGPoint>) {
-        // Stop dragging
-        self.isDragging = false
     }
 
     public func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
