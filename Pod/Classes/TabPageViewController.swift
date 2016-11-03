@@ -234,6 +234,10 @@ extension TabPageViewController: UIPageViewControllerDelegate {
 
         // Order to prevent the the hit repeatedly during animation
         tabView.updateCollectionViewUserInteractionEnabled(false)
+        
+        // Update background color to mask white background when bouncing (on fast fling)
+        let scrollView = view.subviews.flatMap { $0 as? UIScrollView }.first
+        scrollView?.backgroundColor = option.pageBackgoundColor ?? pendingViewControllers.first?.view.backgroundColor ?? UIColor.white
     }
 
     public func pageViewController(_ pageViewController: UIPageViewController, didFinishAnimating finished: Bool, previousViewControllers: [UIViewController], transitionCompleted completed: Bool) {
