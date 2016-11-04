@@ -8,7 +8,7 @@
 
 import UIKit
 
-internal class TabView: UIView {
+public class TabView: UIView {
 
     var pageItemPressedBlock: ((_ index: Int, _ direction: UIPageViewControllerNavigationDirection) -> Void)?
     var pageTabItems: [String] = [] {
@@ -114,7 +114,7 @@ internal class TabView: UIView {
         bottomBarViewHeightConstraint.constant = 1.0 / UIScreen.main.scale
     }
 
-    required internal init?(coder aDecoder: NSCoder) {
+    required public init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
     }
 }
@@ -285,11 +285,11 @@ extension TabView {
 
 extension TabView: UICollectionViewDataSource {
 
-    internal func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+    public func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return isInfinity ? pageTabItemsCount * 3 : pageTabItemsCount
     }
 
-    internal func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+    public func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: TabCollectionCell.cellIdentifier(), for: indexPath) as! TabCollectionCell
         configureCell(cell, indexPath: indexPath)
         return cell
@@ -329,7 +329,7 @@ extension TabView: UICollectionViewDataSource {
 
 extension TabView: UICollectionViewDelegate {
 
-    internal func scrollViewDidScroll(_ scrollView: UIScrollView) {
+    public func scrollViewDidScroll(_ scrollView: UIScrollView) {
         if scrollView.isDragging {
             currentBarView.isHidden = true
             let indexPath = IndexPath(item: currentIndex, section: 0)
@@ -352,7 +352,7 @@ extension TabView: UICollectionViewDelegate {
 
     }
 
-    internal func scrollViewDidEndScrollingAnimation(_ scrollView: UIScrollView) {
+    public func scrollViewDidEndScrollingAnimation(_ scrollView: UIScrollView) {
         // Accept the touch event because animation is complete
         updateCollectionViewUserInteractionEnabled(true)
 
@@ -374,7 +374,7 @@ extension TabView: UICollectionViewDelegate {
 
 extension TabView: UICollectionViewDelegateFlowLayout {
 
-    internal func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+    public func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
 
         if let size = cachedCellSizes[indexPath] {
             return size
@@ -388,11 +388,11 @@ extension TabView: UICollectionViewDelegateFlowLayout {
         return size
     }
 
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
+    public func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
         return 0.0
     }
 
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
+    public func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
         return 0.0
     }
 }
