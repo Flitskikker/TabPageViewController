@@ -27,7 +27,7 @@ class TabCollectionCell: UICollectionViewCell {
             } else {
                 unHighlightTitle()
             }
-            currentBarView.backgroundColor = option.currentColor
+            currentBarView.backgroundColor = option.barColor ?? option.currentColor
             layoutIfNeeded()
         }
     }

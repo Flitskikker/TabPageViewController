@@ -87,7 +87,7 @@ public class TabView: UIView {
 
         collectionView.scrollsToTop = false
 
-        currentBarView.backgroundColor = option.currentColor
+        currentBarView.backgroundColor = option.barColor ?? option.currentColor
         if !isInfinity {
             currentBarView.removeFromSuperview()
             collectionView.addSubview(currentBarView)
