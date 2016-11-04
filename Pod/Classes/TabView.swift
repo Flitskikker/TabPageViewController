@@ -111,7 +111,7 @@ public class TabView: UIView {
             collectionView.addConstraints([top, left])
         }
 
-        bottomBarViewHeightConstraint.constant = 1.0 / UIScreen.main.scale
+        bottomBarViewHeightConstraint.constant = option.showHairline ? 1.0 / UIScreen.main.scale : 0
     }
 
     required public init?(coder aDecoder: NSCoder) {

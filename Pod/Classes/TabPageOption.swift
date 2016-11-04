@@ -16,6 +16,7 @@ public struct TabPageOption {
     public var currentColor = UIColor(red: 105/255, green: 182/255, blue: 245/255, alpha: 1.0)
     public var defaultColor = UIColor(red: 153/255, green: 153/255, blue: 153/255, alpha: 1.0)
     public var barColor: UIColor?
+    public var showHairline = true
     public var tabBarAlpha: CGFloat = 0.95
     public var tabHeight: CGFloat = 32.0
     public var tabMargin: CGFloat = 20.0
