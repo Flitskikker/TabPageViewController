@@ -299,7 +299,7 @@ extension TabView: UICollectionViewDataSource {
         let fixedIndex = isInfinity ? (indexPath as NSIndexPath).item % pageTabItemsCount : (indexPath as NSIndexPath).item
         cell.item = pageTabItems[fixedIndex]
         cell.option = option
-        cell.isCurrent = false
+        cell.isCurrent = fixedIndex == (currentIndex % pageTabItemsCount)
         cell.tabItemButtonPressedBlock = { [weak self, weak cell] in
             var direction: UIPageViewControllerNavigationDirection = .forward
             if let pageTabItemsCount = self?.pageTabItemsCount, let currentIndex = self?.currentIndex {
