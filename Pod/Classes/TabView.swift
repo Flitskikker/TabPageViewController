@@ -37,7 +37,7 @@ public class TabView: UIView {
     @IBOutlet fileprivate weak var currentBarViewWidthConstraint: NSLayoutConstraint!
     @IBOutlet fileprivate weak var bottomBarViewHeightConstraint: NSLayoutConstraint!
 
-    init(isInfinity: Bool, option: TabPageOption) {
+    public init(isInfinity: Bool, option: TabPageOption) {
        super.init(frame: CGRect.zero)
         self.option = option
         self.isInfinity = isInfinity
