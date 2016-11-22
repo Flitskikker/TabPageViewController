@@ -31,8 +31,10 @@ open class TabPageViewController: UIPageViewController {
     fileprivate var shouldScrollCurrentBar: Bool = true
     lazy fileprivate var tabView: TabView = self.configuredTabView()
     
-    var previousOffset: CGFloat = 0
-    var isDragging = false
+    fileprivate var previousOffset: CGFloat = 0
+    fileprivate var isDragging = false
+    
+    fileprivate var previousScreenSize: CGRect = CGRect(x: 0, y: 0, width: 0, height: 0)
 
     open static func create() -> TabPageViewController {
         let sb = UIStoryboard(name: "TabPageViewController", bundle: Bundle(for: TabPageViewController.self))
@@ -70,6 +72,19 @@ open class TabPageViewController: UIPageViewController {
 
         navigationController?.navigationBar.shadowImage = nil
         navigationController?.navigationBar.setBackgroundImage(nil, for: .default)
+    }
+    
+    open override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        
+        // Check if screen size changed
+        if UIScreen.main.bounds != self.previousScreenSize {
+            // Scroll to center
+            self.tabView.scrollToHorizontalCenter()
+            
+            // Save screen size
+            self.previousScreenSize = UIScreen.main.bounds
+        }
     }
 }
 
