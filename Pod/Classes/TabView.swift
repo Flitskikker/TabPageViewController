@@ -86,6 +86,7 @@ public class TabView: UIView {
         cellForSize = nib.instantiate(withOwner: nil, options: nil).first as! TabCollectionCell
 
         collectionView.scrollsToTop = false
+        collectionView.isScrollEnabled = option.tabBarScrollEnabled
 
         currentBarView.backgroundColor = option.barColor ?? option.currentColor
         if !isInfinity {
