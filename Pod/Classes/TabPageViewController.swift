@@ -31,6 +31,8 @@ open class TabPageViewController: UIPageViewController {
     fileprivate var shouldScrollCurrentBar: Bool = true
     lazy fileprivate var tabView: TabView = self.configuredTabView()
     
+    public var customTabView: TabView?
+    
     fileprivate var previousOffset: CGFloat = 0
     fileprivate var isDragging = false
     
@@ -148,44 +150,47 @@ extension TabPageViewController {
     }
 
     fileprivate func configuredTabView() -> TabView {
-        let tabView = TabView(isInfinity: isInfinity, option: option)
-        tabView.translatesAutoresizingMaskIntoConstraints = false
-
-        let height = NSLayoutConstraint(item: tabView,
-            attribute: .height,
-            relatedBy: .equal,
-            toItem: nil,
-            attribute: .height,
-            multiplier: 1.0,
-            constant: option.tabHeight)
-        tabView.addConstraint(height)
-        view.addSubview(tabView)
-
-        let top = NSLayoutConstraint(item: tabView,
-            attribute: .top,
-            relatedBy: .equal,
-            toItem: topLayoutGuide,
-            attribute: .bottom,
-            multiplier:1.0,
-            constant: 0.0)
-
-        let left = NSLayoutConstraint(item: tabView,
-            attribute: .leading,
-            relatedBy: .equal,
-            toItem: view,
-            attribute: .leading,
-            multiplier: 1.0,
-            constant: 0.0)
-
-        let right = NSLayoutConstraint(item: view,
-            attribute: .trailing,
-            relatedBy: .equal,
-            toItem: tabView,
-            attribute: .trailing,
-            multiplier: 1.0,
-            constant: 0.0)
-
-        view.addConstraints([top, left, right])
+        let tabView = self.customTabView ?? TabView(isInfinity: isInfinity, option: option)
+        
+        if self.customTabView == nil {
+            tabView.translatesAutoresizingMaskIntoConstraints = false
+            
+            let height = NSLayoutConstraint(item: tabView,
+                                            attribute: .height,
+                                            relatedBy: .equal,
+                                            toItem: nil,
+                                            attribute: .height,
+                                            multiplier: 1.0,
+                                            constant: option.tabHeight)
+            tabView.addConstraint(height)
+            view.addSubview(tabView)
+            
+            let top = NSLayoutConstraint(item: tabView,
+                                         attribute: .top,
+                                         relatedBy: .equal,
+                                         toItem: topLayoutGuide,
+                                         attribute: .bottom,
+                                         multiplier:1.0,
+                                         constant: 0.0)
+            
+            let left = NSLayoutConstraint(item: tabView,
+                                          attribute: .leading,
+                                          relatedBy: .equal,
+                                          toItem: view,
+                                          attribute: .leading,
+                                          multiplier: 1.0,
+                                          constant: 0.0)
+            
+            let right = NSLayoutConstraint(item: view,
+                                           attribute: .trailing,
+                                           relatedBy: .equal,
+                                           toItem: tabView,
+                                           attribute: .trailing,
+                                           multiplier: 1.0,
+                                           constant: 0.0)
+            
+            view.addConstraints([top, left, right])
+        }
 
         tabView.pageTabItems = tabItems.map({ $0.title})
         tabView.updateCurrentIndex(beforeIndex, shouldScroll: true)
