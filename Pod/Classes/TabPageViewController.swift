@@ -112,6 +112,31 @@ public extension TabPageViewController {
             animated: animated,
             completion: completion)
     }
+    
+    public func scrollToIndex(_ index: Int, direction: UIPageViewControllerNavigationDirection, animated: Bool) {
+        beforeIndex = index
+        shouldScrollCurrentBar = false
+        let nextViewControllers: [UIViewController] = [tabItems[index].viewController]
+        
+        let completion: ((Bool) -> Void) = { [weak self] _ in
+            self?.shouldScrollCurrentBar = true
+            self?.beforeIndex = index
+            
+            // Reset tab view
+            self?.tabView.scrollToHorizontalCenter()
+        }
+        
+        setViewControllers(
+            nextViewControllers,
+            direction: direction,
+            animated: animated,
+            completion: completion)
+        
+        // Animate tab
+        if animated {
+            self.tabView.updateCurrentIndexForTap(index + (direction == .forward ? self.tabView.pageTabItems.count : 0))
+        }
+    }
 }
 
 

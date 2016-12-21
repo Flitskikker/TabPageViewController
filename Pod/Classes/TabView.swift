@@ -211,7 +211,7 @@ extension TabView {
 
      - parameter index: Next IndexPath√
      */
-    fileprivate func updateCurrentIndexForTap(_ index: Int) {
+     func updateCurrentIndexForTap(_ index: Int) {
         deselectVisibleCells()
 
         if isInfinity && (index < pageTabItemsCount) || (index >= pageTabItemsCount * 2) {
