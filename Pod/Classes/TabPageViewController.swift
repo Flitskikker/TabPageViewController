@@ -72,8 +72,10 @@ open class TabPageViewController: UIPageViewController {
     override open func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
 
-        navigationController?.navigationBar.shadowImage = nil
-        navigationController?.navigationBar.setBackgroundImage(nil, for: .default)
+        if option.drawNavigationBar {
+            navigationController?.navigationBar.shadowImage = nil
+            navigationController?.navigationBar.setBackgroundImage(nil, for: .default)
+        }
     }
     
     open override func viewDidLayoutSubviews() {
@@ -168,9 +170,11 @@ extension TabPageViewController {
      */
 
     fileprivate func updateNavigationBar() {
-        if let navigationBar = navigationController?.navigationBar {
-            navigationBar.shadowImage = UIImage()
-            navigationBar.setBackgroundImage(option.tabBackgroundImage, for: .default)
+        if option.drawNavigationBar {
+            if let navigationBar = navigationController?.navigationBar {
+                navigationBar.shadowImage = UIImage()
+                navigationBar.setBackgroundImage(option.tabBackgroundImage, for: .default)
+            }
         }
     }
 

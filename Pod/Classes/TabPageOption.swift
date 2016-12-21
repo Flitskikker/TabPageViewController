@@ -25,6 +25,7 @@ public struct TabPageOption {
     public var tabBackgroundColor: UIColor = UIColor(red: 1.0, green: 1.0, blue: 1.0, alpha: 0.95)
     public var pageBackgoundColor: UIColor?
     public var tabBarScrollEnabled = true
+    public var drawNavigationBar = true
      internal var tabBackgroundImage: UIImage {
         return convertImage()
     }
