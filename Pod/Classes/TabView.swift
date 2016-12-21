@@ -195,8 +195,10 @@ extension TabView {
 
      - parameter index: Next Index
      */
-    func updateCurrentIndex(_ index: Int, shouldScroll: Bool) {
-        deselectVisibleCells()
+    func updateCurrentIndex(_ index: Int, shouldScroll: Bool, shouldDeselectVisibleCells: Bool = false) {
+        if shouldDeselectVisibleCells {
+            deselectVisibleCells()
+        }
 
         currentIndex = isInfinity ? index + pageTabItemsCount : index
 

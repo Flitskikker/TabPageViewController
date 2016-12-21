@@ -359,6 +359,6 @@ extension TabPageViewController: UIScrollViewDelegate {
     }
 
     public func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
-        tabView.updateCurrentIndex(beforeIndex, shouldScroll: true)
+        tabView.updateCurrentIndex(beforeIndex, shouldScroll: true, shouldDeselectVisibleCells: true)
     }
 }
