@@ -37,6 +37,8 @@ open class TabPageViewController: UIPageViewController {
     fileprivate var isDragging = false
     
     fileprivate var previousScreenSize: CGRect = CGRect(x: 0, y: 0, width: 0, height: 0)
+    
+    public var onTabPressHandler: ((_ tabIndex: Int, _ currentIndex: Int?) -> Void)?
 
     open static func create() -> TabPageViewController {
         let sb = UIStoryboard(name: "TabPageViewController", bundle: Bundle(for: TabPageViewController.self))
@@ -225,6 +227,9 @@ extension TabPageViewController {
         tabView.updateCurrentIndex(beforeIndex, shouldScroll: true)
 
         tabView.pageItemPressedBlock = { [weak self] (index: Int, direction: UIPageViewControllerNavigationDirection) in
+            // Custom handler
+            self?.onTabPressHandler?(index, self?.currentIndex)
+            
             self?.displayControllerWithIndex(index, direction: direction, animated: true)
         }
 
